@@ -52,12 +52,24 @@
          cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ListPrototypeCell"
                                                             forIndexPath:indexPath];
-    
     ToDoItem *toDoItem = self.toDoItems[indexPath.row];
     
     cell.textLabel.text = toDoItem.itemName;
+    cell.accessoryType = toDoItem.completed? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView
+didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath
+                             animated:YES];
+    
+    ToDoItem *toDoItem = self.toDoItems[indexPath.row];
+
+    toDoItem.completed = !toDoItem.completed;
+    [tableView reloadRowsAtIndexPaths:@[indexPath]
+                     withRowAnimation:UITableViewRowAnimationFade];
 }
 
 /*
